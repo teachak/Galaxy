@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+    <style>
+     * {
+  box-sizing: border-box;
+}   
+    .header,.footer{
+        background-color:grey;
+        color:white;
+        padding:15px;
+    }
+    .column{
+    float: left;
+    padding:15px;
+    }
+    .clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+    .menu{
+        width: 25%;
+    }
+    .content{
+        width:75%;
+    }
+    .menu li{
+        padding: 8px;
+        margin-bottom: 8px;
+        background-color: rgb(41, 184, 184);
+        color: aliceblue;
+    }
+    .nav{
+        list-style-type: none;
+        padding:0;margin:0;
+        overflow: hidden;
+        background-color: #333;
+    }
+    .nav li{
+        float: left;
+    }
+    li a{
+        display:inline-block;
+        color:white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    li a:hover{
+        background-color: #111;
+    }
+    .active{
+        background-color: red;
+    }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>Chania</h1>
+    </div>
+   
+    
+    <nav>
+        <ul class="nav">
+            <li><a href="#" class="active">HOME</a></li>
+            <li><a href="#">NEWS</a></li>
+            <li><a href="#">CONTACT</a></li>
+            <li><a href="#">ABOUT</a></li>
+            </ul>
+            </nav> 
+            <div class="clearfix">
+    <div class="column menu">
+        <ul>
+            <li>The Fight</li>
+            <li>The City</li>
+            <li>The Island</li>
+            <li>The Food</li>
+        </ul>
+    </div>
+    <div class="column content">
+        <h1>The City</h1>
+        <p>Chania is the capital of the chania region on the island of crete</p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>Footer Text</p>
+</div>
+</body>
+</html>
