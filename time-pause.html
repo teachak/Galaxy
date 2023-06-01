@@ -1,0 +1,56 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>cumulative from 1 after page loaded </title>
+
+    <style>
+        div {
+            text-align: center;
+            font-size: 100px;
+            padding: 100px;
+        }
+        
+        button {
+            display: block;
+            margin: 50px auto;
+            width: 500px;
+            height: 100px;
+            font-size: 30px;
+        }
+        
+        span {
+            color: crimson
+        }
+    </style>
+
+</head>
+<body>
+    <button onclick="timing()">Timing start</button>
+       <div id="demo"></div>
+    <script>
+        var oBody = document.getElementById("demo");
+        var timerId = null;
+        var clickCount = 0;
+        var startTime = 0;
+        var elapsedTime = 0;
+
+        function timing() {
+            clickCount++;
+            if (clickCount % 2 == 1) {
+                startTime = new Date().getTime() - elapsedTime;
+                timerId = setInterval(updateTime, 1000);
+            } else {
+                clearInterval(timerId);
+            }
+        }
+
+               function updateTime() {
+            var delta = new Date().getTime() - startTime;
+            elapsedTime = delta;
+            oBody.innerHTML = "Time passed: " + "<span>" + (delta / 1000).toFixed(0) + "</span>" + " s";
+        }
+    </script>
+</body>
+</html>
