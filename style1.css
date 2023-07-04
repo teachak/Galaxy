@@ -1,0 +1,161 @@
+body{
+	background-color: rgb(213, 255, 216);
+	padding: 10px;
+}
+#sidebar{
+	width: 25%;
+	margin:0;
+	padding-left:10px;
+	height: 100%;
+}	
+#main{
+	float:right;
+	width: 70%;
+	padding-right: 10px;
+
+}
+#header {
+	background-color: #aeeeb3;
+	text-align: center;
+	font-size:25px ;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding:20px;
+	outline:10px;
+}
+
+.icons {
+	 display: flex;
+	 gap: 10px; /* 图标之间的间距 */
+	 list-style: none;
+}
+.icons li a {
+	 display: flex;
+	 align-items: center;
+	 font-family: 'Times New Roman', Times, serif;
+	 text-decoration: none;
+	 padding:5px;
+}
+input[type=text]{
+	padding:5px;
+	border-radius: 5px;
+	width:90%;
+	text-align: center;
+	transition: width 0.4s ease-in-out;
+}
+a:link, a:hover{
+	text-decoration: none;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	color: rgb(45, 119, 38);
+
+}
+h1,h3{
+	border-left:5px solid rgb(33, 116, 37);
+	padding:5px;
+	color:#186b1f;
+}
+
+ .major {
+	color:rgb(28, 77, 141);
+	text-align: center;
+}
+ul{
+	list-style-type: none;
+}
+li a{
+	background-color: rgb(235, 255, 188);
+	text-align: center;
+	font-size: 20px;
+}
+
+.label{
+	display:inline;
+	float:right;
+	text-align: right;
+}
+
+p{
+	color:#186b1f;
+	padding:8px;
+	width:40%;
+	background-color: rgb(194, 230, 235);
+	display:inline-block;
+	text-align: justify;
+	border-radius: 5px;
+	border-left:2px solid yellowgreen;
+}
+#banner{
+	padding:20px;
+}
+#banner p{
+	text-align: justify;
+	width:80%;
+}
+.content{
+	float:left;
+	width:50%;
+
+}
+.label{
+	display:inline-block;
+}
+.posts {
+   display:grid; 
+   justify-content: space-between; /* 在容器内平均分隔子项，以充分利用可用的空间 */
+   align-items: center; /* 沿交叉轴居中对齐子项文本 */
+   grid-template-columns: repeat(2, 1fr);
+   gap: 1rem; 
+}
+.image {
+   width: 100%;
+}
+.posts article {
+   flex-basis: 45%; /* 设置子项的基础宽度为45%，以便在同一行中留出足够的空间 */
+}
+.posts p{
+   margin-left: 1rem; /* 为了在图片和文本之间添加一些空白间距，可以调整此处的数值 */
+   margin:-10px;
+}
+#banner img{
+width:45%;
+height: 45%;
+padding: 5px;
+
+}	
+span img{
+	margin:auto;
+}
+.button {
+   display:inline-block; 
+   color:rgb(24, 49, 87);
+   padding: 5px;
+}
+section p{
+	margin:5px;
+	width:95%;
+}
+ul .contact{
+   width:95%;
+}
+.contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact li {
+   width: 100%; 
+}
+
+#footer p{
+  width:95%;
+}
+#menu ul li a {
+    display: block;
+    padding: 5px;
+	width: 80%;
+	
+  }
+  section{
+	padding: 10px;
+  }
