@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+        <head>
+          <link rel="stylesheet" href="styleyang.css">
+          </head>
+ <body>
+<canvas id="gameCanvas" width="640" height="480" ></canvas>
+<audio id="background-music" src="achilles.mp3" autoplay loop></audio>
+<script>
+var btn = document.createElement("button"); 
+btn.innerHTML = "开始游戏"; 
+document.body.appendChild(btn); // 设置按钮点击事件
+
+btn.addEventListener("click", function() {
+var canvas = document.getElementById('gameCanvas');
+var ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+var player = {x: window.innerWidth / 2, y: window.innerHeight / 4, size: 80, speed: 10};
+var enemy = {x: window.innerWidth / 4, y: window.innerHeight / 2, size: 80, speed: 4};
+var blockerEnemy = {x: window.innerWidth *4/ 3, y: window.innerHeight / 3, size: 80, speed: 2};
+
+var playerImage = new Image();
+var enemyImage = new Image();
+var blockerEnemyImage = new Image();
+playerImage.src = '0001.png';
+enemyImage.src = '3cosmicgrownup.png';
+blockerEnemyImage.src = 'monster.png';
+
+ctx.drawImage(playerImage, player.x, player.y, player.size, player.size);
+ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.size, enemy.size);
+ctx.drawImage(blockerEnemyImage, blockerEnemy.x, blockerEnemy.y, blockerEnemy.size, blockerEnemy.size);
+playerImage.onload = function() {
+  ctx.drawImage(playerImage, player.x, player.y, player.size, player.size);}
+enemyImage.onload = function() {
+  ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.size, enemy.size);}
+
+function drawRect(x, y, size, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, size, size);}
+
+window.addEventListener('resize', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    player.x = window.innerWidth / 4;
+    player.y = window.innerHeight / 2;
+    enemy.x = window.innerWidth * 3 / 4;
+    enemy.y = window.innerHeight / 2;
+    ctx.drawImage(playerImage, player.x, player.y, player.size, player.size);
+    ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.size, enemy.size);
+});
+
+var obstacles = [
+  {x: 850, y: 150, size: 35, image: new Image()},
+];// Create an array of obstacles
+var items = [
+  {x: 300, y: 400, size: 50, image: new Image()},
+];// Create an array of items
+
+obstacles.push({x: 100, y: 50, size: 35, image: new Image()});
+obstacles.push({x: 400, y: 100, size: 35, image: new Image()});
+obstacles.push({x: 550, y: 450, size: 35, image: new Image()});
+obstacles.push({x: 1000, y: 350, size: 35, image: new Image()});
+items.push({x: 950, y: 450, size: 50, image: new Image()});
+items.push({x: 100, y: 150, size: 50, image: new Image()});
+items.push({x: 500, y: 300, size: 50, image: new Image()});
+items.push({x: 450, y: 200, size: 50, image: new Image()});
+
+obstacles.forEach(function(obstacle) {
+  obstacle.image.src = 'rock-obstacle.png';});
+items.forEach(function(item) {
+  item.image.src = 'goldCoin4.png';});
+
+  Promise.all([
+  ...obstacles.map(obstacle => new Promise(resolve => obstacle.image.onload = resolve)),
+  ...items.map(item => new Promise(resolve => item.image.onload = resolve)),
+  new Promise(resolve => blockerEnemyImage.onload = resolve)
+])
+ var itemsCollected = 0;
+ var gameOver = false;
+ function isColliding(obj1, obj2) {
+    return obj1.x < obj2.x + obj2.size &&
+           obj1.x + obj1.size > obj2.x &&
+           obj1.y < obj2.y + obj2.size &&
+           obj1.y + obj1.size > obj2.y;
+}
+function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(playerImage, player.x, player.y, player.size, player.size);
+    ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.size, enemy.size);
+    ctx.drawImage(blockerEnemyImage, blockerEnemy.x, blockerEnemy.y, blockerEnemy.size, blockerEnemy.size);
+    
+    if (isColliding(player, blockerEnemy) || isColliding(player, enemy)) {
+    alert('游戏结束');
+    gameOver = true;
+    return;
+    }
+    var dx = Math.abs(player.x - enemy.x);
+    var dy = Math.abs(player.y - enemy.y);
+    var dx = player.x - blockerEnemy.x;
+    var dy = player.y - blockerEnemy.y;
+    var distance = Math.sqrt(dx * dx + dy * dy);
+    
+    if (distance > blockerEnemy.speed) {
+    blockerEnemy.x += (dx / distance) * blockerEnemy.speed;
+    blockerEnemy.y += (dy / distance) * blockerEnemy.speed;
+}
+    if (dx > dy) {// Move horizontally
+    var newX = enemy.x;
+    if (player.x < enemy.x) newX -= enemy.speed;
+    if (player.x > enemy.x) newX += enemy.speed;
+    var wouldCollide = obstacles.some(obstacle => isColliding({x: newX, y: enemy.y, size: enemy.size}, obstacle));
+    if (!wouldCollide) {
+        enemy.x = newX;}
+    } else {// Move vertically
+    var newY = enemy.y;
+    if (player.y < enemy.y) newY -= enemy.speed;
+    if (player.y > enemy.y) newY += enemy.speed;
+    var wouldCollide = obstacles.some(obstacle => isColliding({x: enemy.x, y: newY, size: enemy.size}, obstacle));
+    if (!wouldCollide) {
+        enemy.y = newY;
+    }
+}
+items = items.filter(function(item) {
+    if (isColliding(player, item)) {
+        itemsCollected++;
+        return false;
+    }
+    return true;
+});
+if (itemsCollected >= 5) {
+    alert('You have won the game!');
+    gameOver = true;
+    return;
+}
+if (!gameOver) {
+    requestAnimationFrame(gameLoop);
+}
+    obstacles.forEach(function(obstacle) {
+    ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacle.size, obstacle.size);
+  });// Draw obstacles
+    items.forEach(function(item) {
+    ctx.drawImage(item.image, item.x, item.y, item.size, item.size);
+  });  // Draw items
+}
+window.addEventListener('keydown', function(e) {
+    var newX = player.x;
+    var newY = player.y;
+    switch(e.key) {
+        case 'ArrowLeft': newX -= player.speed; break;
+        case 'ArrowRight': newX += player.speed; break;
+        case 'ArrowUp': newY -= player.speed; break;
+        case 'ArrowDown': newY += player.speed; break;
+    }
+    var wouldCollide = obstacles.some(obstacle => isColliding({x: newX, y: newY, size: player.size}, obstacle));
+    if (!wouldCollide) {
+        player.x = newX;
+        player.y = newY;
+    }
+    if (isColliding({x: newX, y: newY, size: player.size}, blockerEnemy)) {
+    wouldCollide = true;}
+});
+
+gameLoop();
+
+btn.style.display = 'none';
+});
+</script>
+</body>
+</html>
+
